@@ -9,12 +9,13 @@ import { ThemeProvider } from './theme/ThemeContext';
 
 // 组件
 import NavbarEnhanced from './components/NavbarEnhanced';
+import SidebarEnhanced from './components/SidebarEnhanced';
 
 // 页面
 import Home from './pages/Home';
 import Watch from './pages/Watch';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import LoginEnhanced from './pages/LoginEnhanced';
+import RegisterEnhanced from './pages/RegisterEnhanced';
 import Upload from './pages/Upload';
 import Search from './pages/Search';
 import UserProfile from './pages/UserProfile';
@@ -56,24 +57,7 @@ const App = () => {
     { text: '我喜欢的', icon: <ThumbUpIcon />, path: '/liked' },
   ];
 
-  const drawer = (
-    <Box>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton
-              onClick={() => {
-                window.location.href = item.path;
-              }}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const drawer = <SidebarEnhanced />;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -137,8 +121,8 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/watch/:videoId" element={<Watch />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<LoginEnhanced />} />
+                <Route path="/register" element={<RegisterEnhanced />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/user/:userId" element={<UserProfile />} />

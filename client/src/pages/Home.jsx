@@ -14,7 +14,8 @@ import { videoAPI } from '../services/api';
 import { motion } from 'framer-motion';
 import VideoCardEnhanced from '../components/VideoCardEnhanced';
 import LoadingAnimation from '../components/LoadingAnimation';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import EmptyState from '../components/EmptyState';
+import { useNavigate } from 'react-router-dom';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 
@@ -30,6 +31,7 @@ const categories = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState('recommended');
 
   const { data, isLoading, error } = useQuery({
@@ -131,39 +133,13 @@ const Home = () => {
 
       {/* 空状态 */}
       {!isLoading && (!data?.videos || data.videos.length === 0) && (
-        <Fade in>
-          <Box
-            sx={{
-              textAlign: 'center',
-              py: 10,
-            }}
-          >
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-            >
-              <PlayArrowIcon
-                sx={{
-                  fontSize: 80,
-                  color: 'text.secondary',
-                  mb: 3,
-                  opacity: 0.5,
-                }}
-              />
-            </motion.div>
-            <Typography variant="h5" color="text.secondary" fontWeight={600} sx={{ mb: 1 }}>
-              暂无视频
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              换个分类试试吧
-            </Typography>
-          </Box>
-        </Fade>
+        <EmptyState
+          type="video"
+          title="暂无视频内容"
+          description="换个分类试试，或者稍后再来看看精彩视频"
+          actionText="浏览热门"
+          onAction={() => setFilter('trending')}
+        />
       )}
     </Container>
   );
