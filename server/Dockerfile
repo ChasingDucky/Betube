@@ -11,7 +11,7 @@ RUN apk add --no-cache ffmpeg
 COPY package*.json ./
 
 # 安装依赖（仅生产依赖）
-RUN npm ci --only=production
+RUN npm install --only=production
 
 # 复制应用代码
 COPY . .
