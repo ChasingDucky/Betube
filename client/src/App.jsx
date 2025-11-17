@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './theme/ThemeContext';
 
 // 组件
-import Navbar from './components/Navbar';
+import NavbarEnhanced from './components/NavbarEnhanced';
 
 // 页面
 import Home from './pages/Home';
@@ -81,7 +81,7 @@ const App = () => {
         <Router>
           <Box sx={{ display: 'flex' }}>
             {/* 导航栏 */}
-            <Navbar onMenuClick={handleDrawerToggle} />
+            <NavbarEnhanced onMenuClick={handleDrawerToggle} />
 
             {/* 侧边栏 */}
             <Box

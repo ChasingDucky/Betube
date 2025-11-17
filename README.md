@@ -72,12 +72,31 @@ Betube/
 
 ## 快速开始
 
-### 前置要求
+### 🐳 Docker部署（推荐）
+
+使用Docker是最快的开始方式：
+
+```bash
+# 克隆仓库
+git clone <repository-url>
+cd Betube
+
+# 一键启动所有服务
+docker-compose up -d
+```
+
+访问 http://localhost 即可使用！
+
+📖 详细的Docker使用指南请查看 [DOCKER.md](DOCKER.md)
+
+### 📦 手动安装
+
+#### 前置要求
 - Node.js 18+
 - MongoDB 6+
 - FFmpeg
 
-### 安装
+#### 安装步骤
 
 1. 克隆仓库
 ```bash
@@ -110,7 +129,7 @@ cp .env.example .env
 npm run dev
 
 # 启动前端（在client目录）
-npm start
+npm run dev
 ```
 
 ## 开发计划

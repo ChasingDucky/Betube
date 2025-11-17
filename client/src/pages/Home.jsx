@@ -3,143 +3,31 @@ import {
   Box,
   Container,
   Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Avatar,
   Chip,
   Stack,
-  Skeleton,
+  Typography,
+  Fade,
+  Slide,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { videoAPI } from '../services/api';
-import { useNavigate } from 'react-router-dom';
-import { formatDistanceToNow } from '../utils/dateUtils';
+import { motion } from 'framer-motion';
+import VideoCardEnhanced from '../components/VideoCardEnhanced';
+import LoadingAnimation from '../components/LoadingAnimation';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
-const VideoCard = ({ video }) => {
-  const navigate = useNavigate();
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const handleClick = () => {
-    navigate(`/watch/${video._id}`);
-  };
-
-  return (
-    <Card
-      onClick={handleClick}
-      sx={{
-        cursor: 'pointer',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: 4,
-        },
-      }}
-    >
-      <Box sx={{ position: 'relative', paddingTop: '56.25%' }}>
-        {!imageLoaded && (
-          <Skeleton
-            variant="rectangular"
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
-          />
-        )}
-        <CardMedia
-          component="img"
-          image={video.thumbnail || '/default-thumbnail.jpg'}
-          alt={video.title}
-          onLoad={() => setImageLoaded(true)}
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            bottom: 8,
-            right: 8,
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            padding: '2px 6px',
-            borderRadius: 1,
-            fontSize: '0.75rem',
-            fontWeight: 500,
-          }}
-        >
-          {video.duration || '00:00'}
-        </Box>
-      </Box>
-      <CardContent>
-        <Stack direction="row" spacing={1.5} alignItems="flex-start">
-          <Avatar
-            src={video.author?.avatar}
-            alt={video.author?.name}
-            sx={{ width: 36, height: 36, mt: 0.5 }}
-          />
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography
-              variant="subtitle1"
-              fontWeight={500}
-              sx={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              {video.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-              {video.author?.name}
-            </Typography>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="caption" color="text.secondary">
-                {video.views?.toLocaleString() || 0} 次观看
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                •
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {formatDistanceToNow(video.createdAt)}
-              </Typography>
-            </Stack>
-          </Box>
-        </Stack>
-      </CardContent>
-    </Card>
-  );
-};
-
-const VideoCardSkeleton = () => (
-  <Card>
-    <Skeleton variant="rectangular" sx={{ paddingTop: '56.25%' }} />
-    <CardContent>
-      <Stack direction="row" spacing={1.5}>
-        <Skeleton variant="circular" width={36} height={36} />
-        <Box sx={{ flex: 1 }}>
-          <Skeleton variant="text" width="80%" />
-          <Skeleton variant="text" width="60%" />
-          <Skeleton variant="text" width="40%" />
-        </Box>
-      </Stack>
-    </CardContent>
-  </Card>
-);
+const categories = [
+  { label: '推荐', value: 'recommended', icon: <WhatshotIcon /> },
+  { label: '热门', value: 'trending', icon: <TrendingUpIcon /> },
+  { label: '游戏', value: 'gaming' },
+  { label: '音乐', value: 'music' },
+  { label: '科技', value: 'tech' },
+  { label: '娱乐', value: 'entertainment' },
+  { label: '生活', value: 'life' },
+  { label: '美食', value: 'food' },
+];
 
 const Home = () => {
   const [filter, setFilter] = useState('recommended');
@@ -156,69 +44,126 @@ const Home = () => {
   });
 
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      {/* 顶部标题 */}
+      <Slide direction="down" in timeout={500}>
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="h4"
+            fontWeight={700}
+            sx={{
+              mb: 1,
+              background: 'linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 90%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            {filter === 'recommended' ? '为你推荐' : filter === 'trending' ? '热门视频' : '精选内容'}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            发现更多精彩视频内容
+          </Typography>
+        </Box>
+      </Slide>
+
       {/* 分类标签 */}
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          mb: 3,
-          overflowX: 'auto',
-          '&::-webkit-scrollbar': { height: 8 },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: 'rgba(0,0,0,0.2)',
-            borderRadius: 4,
-          },
-        }}
-      >
-        <Chip
-          label="推荐"
-          onClick={() => setFilter('recommended')}
-          color={filter === 'recommended' ? 'primary' : 'default'}
-          sx={{ fontWeight: 500 }}
-        />
-        <Chip
-          label="热门"
-          onClick={() => setFilter('trending')}
-          color={filter === 'trending' ? 'primary' : 'default'}
-          sx={{ fontWeight: 500 }}
-        />
-        <Chip label="游戏" sx={{ fontWeight: 500 }} />
-        <Chip label="音乐" sx={{ fontWeight: 500 }} />
-        <Chip label="科技" sx={{ fontWeight: 500 }} />
-        <Chip label="娱乐" sx={{ fontWeight: 500 }} />
-        <Chip label="生活" sx={{ fontWeight: 500 }} />
-        <Chip label="美食" sx={{ fontWeight: 500 }} />
-      </Stack>
+      <Fade in timeout={600}>
+        <Stack
+          direction="row"
+          spacing={1.5}
+          sx={{
+            mb: 4,
+            overflowX: 'auto',
+            pb: 1,
+            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              borderRadius: 4,
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              borderRadius: 4,
+            },
+          }}
+        >
+          {categories.map((category, index) => (
+            <motion.div
+              key={category.value}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <Chip
+                icon={category.icon}
+                label={category.label}
+                onClick={() => setFilter(category.value)}
+                color={filter === category.value ? 'primary' : 'default'}
+                variant={filter === category.value ? 'filled' : 'outlined'}
+                sx={{
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 40,
+                  px: 1,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: 2,
+                  },
+                }}
+              />
+            </motion.div>
+          ))}
+        </Stack>
+      </Fade>
 
       {/* 视频网格 */}
-      <Grid container spacing={2}>
-        {isLoading
-          ? Array.from({ length: 12 }).map((_, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <VideoCardSkeleton />
-              </Grid>
-            ))
-          : data?.videos?.map((video) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
-                <VideoCard video={video} />
-              </Grid>
-            ))}
-      </Grid>
+      {isLoading ? (
+        <LoadingAnimation message="正在加载精彩内容..." />
+      ) : (
+        <Grid container spacing={3}>
+          {data?.videos?.map((video, index) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+              <VideoCardEnhanced video={video} index={index} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       {/* 空状态 */}
       {!isLoading && (!data?.videos || data.videos.length === 0) && (
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 8,
-          }}
-        >
-          <PlayArrowIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-          <Typography variant="h6" color="text.secondary">
-            暂无视频
-          </Typography>
-        </Box>
+        <Fade in>
+          <Box
+            sx={{
+              textAlign: 'center',
+              py: 10,
+            }}
+          >
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+              }}
+            >
+              <PlayArrowIcon
+                sx={{
+                  fontSize: 80,
+                  color: 'text.secondary',
+                  mb: 3,
+                  opacity: 0.5,
+                }}
+              />
+            </motion.div>
+            <Typography variant="h5" color="text.secondary" fontWeight={600} sx={{ mb: 1 }}>
+              暂无视频
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              换个分类试试吧
+            </Typography>
+          </Box>
+        </Fade>
       )}
     </Container>
   );
