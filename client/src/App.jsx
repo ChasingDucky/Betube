@@ -19,6 +19,10 @@ import RegisterEnhanced from './pages/RegisterEnhanced';
 import UploadEnhanced from './pages/UploadEnhanced';
 import SearchEnhanced from './pages/SearchEnhanced';
 import UserProfileEnhanced from './pages/UserProfileEnhanced';
+import ExploreEnhanced from './pages/ExploreEnhanced';
+import HistoryEnhanced from './pages/HistoryEnhanced';
+import WatchLaterEnhanced from './pages/WatchLaterEnhanced';
+import SubscriptionsEnhanced from './pages/SubscriptionsEnhanced';
 
 // 图标
 import HomeIcon from '@mui/icons-material/Home';
@@ -120,12 +124,16 @@ const App = () => {
             >
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/explore" element={<ExploreEnhanced />} />
                 <Route path="/watch/:videoId" element={<WatchEnhanced />} />
                 <Route path="/login" element={<LoginEnhanced />} />
                 <Route path="/register" element={<RegisterEnhanced />} />
                 <Route path="/upload" element={<UploadEnhanced />} />
                 <Route path="/search" element={<SearchEnhanced />} />
                 <Route path="/user/:userId" element={<UserProfileEnhanced />} />
+                <Route path="/subscriptions" element={<SubscriptionsEnhanced />} />
+                <Route path="/history" element={<HistoryEnhanced />} />
+                <Route path="/watch-later" element={<WatchLaterEnhanced />} />
               </Routes>
             </Box>
           </Box>
