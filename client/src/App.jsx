@@ -13,12 +13,12 @@ import SidebarEnhanced from './components/SidebarEnhanced';
 
 // 页面
 import Home from './pages/Home';
-import Watch from './pages/Watch';
+import WatchEnhanced from './pages/WatchEnhanced';
 import LoginEnhanced from './pages/LoginEnhanced';
 import RegisterEnhanced from './pages/RegisterEnhanced';
-import Upload from './pages/Upload';
-import Search from './pages/Search';
-import UserProfile from './pages/UserProfile';
+import UploadEnhanced from './pages/UploadEnhanced';
+import SearchEnhanced from './pages/SearchEnhanced';
+import UserProfileEnhanced from './pages/UserProfileEnhanced';
 
 // 图标
 import HomeIcon from '@mui/icons-material/Home';
@@ -120,12 +120,12 @@ const App = () => {
             >
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/watch/:videoId" element={<Watch />} />
+                <Route path="/watch/:videoId" element={<WatchEnhanced />} />
                 <Route path="/login" element={<LoginEnhanced />} />
                 <Route path="/register" element={<RegisterEnhanced />} />
-                <Route path="/upload" element={<Upload />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/user/:userId" element={<UserProfile />} />
+                <Route path="/upload" element={<UploadEnhanced />} />
+                <Route path="/search" element={<SearchEnhanced />} />
+                <Route path="/user/:userId" element={<UserProfileEnhanced />} />
               </Routes>
             </Box>
           </Box>
@@ -136,9 +136,45 @@ const App = () => {
             toastOptions={{
               duration: 3000,
               style: {
-                borderRadius: '10px',
-                background: '#333',
+                borderRadius: '16px',
+                background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.95) 0%, rgba(78, 205, 196, 0.95) 100%)',
                 color: '#fff',
+                padding: '16px 24px',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              },
+              success: {
+                style: {
+                  background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.95) 0%, rgba(67, 160, 71, 0.95) 100%)',
+                  boxShadow: '0 8px 32px rgba(76, 175, 80, 0.3)',
+                },
+                iconTheme: {
+                  primary: '#fff',
+                  secondary: 'rgba(76, 175, 80, 0.95)',
+                },
+              },
+              error: {
+                style: {
+                  background: 'linear-gradient(135deg, rgba(244, 67, 54, 0.95) 0%, rgba(229, 57, 53, 0.95) 100%)',
+                  boxShadow: '0 8px 32px rgba(244, 67, 54, 0.3)',
+                },
+                iconTheme: {
+                  primary: '#fff',
+                  secondary: 'rgba(244, 67, 54, 0.95)',
+                },
+              },
+              loading: {
+                style: {
+                  background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.95) 0%, rgba(30, 136, 229, 0.95) 100%)',
+                  boxShadow: '0 8px 32px rgba(33, 150, 243, 0.3)',
+                },
+                iconTheme: {
+                  primary: '#fff',
+                  secondary: 'rgba(33, 150, 243, 0.95)',
+                },
               },
             }}
           />
