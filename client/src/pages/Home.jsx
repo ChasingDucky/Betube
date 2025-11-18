@@ -15,6 +15,7 @@ import { motion } from 'framer-motion';
 import VideoCardEnhanced from '../components/VideoCardEnhanced';
 import LoadingAnimation from '../components/LoadingAnimation';
 import EmptyState from '../components/EmptyState';
+import { VideoGridSkeleton } from '../components/SkeletonLoader';
 import { useNavigate } from 'react-router-dom';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
@@ -120,15 +121,17 @@ const Home = () => {
 
       {/* 视频网格 */}
       {isLoading ? (
-        <LoadingAnimation message="正在加载精彩内容..." />
+        <VideoGridSkeleton count={12} />
       ) : (
-        <Grid container spacing={3}>
-          {data?.videos?.map((video, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
-              <VideoCardEnhanced video={video} index={index} />
-            </Grid>
-          ))}
-        </Grid>
+        <Fade in timeout={800}>
+          <Grid container spacing={3}>
+            {data?.videos?.map((video, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+                <VideoCardEnhanced video={video} index={index} />
+              </Grid>
+            ))}
+          </Grid>
+        </Fade>
       )}
 
       {/* 空状态 */}

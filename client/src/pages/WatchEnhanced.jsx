@@ -21,8 +21,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { videoAPI, userAPI } from '../services/api';
-import VideoPlayer from '../components/VideoPlayer';
-import CommentSection from '../components/CommentSection';
+import VideoPlayerEnhanced from '../components/VideoPlayerEnhanced';
+import CommentSectionEnhanced from '../components/CommentSectionEnhanced';
 import VideoCardEnhanced from '../components/VideoCardEnhanced';
 import LoadingAnimation from '../components/LoadingAnimation';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -185,7 +185,7 @@ const WatchEnhanced = () => {
                       border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
                     }}
                   >
-                    <VideoPlayer videoId={videoId} videoUrl={video.videoUrl} />
+                    <VideoPlayerEnhanced videoId={videoId} videoUrl={video.videoUrl} />
                   </Paper>
                 </motion.div>
 
@@ -476,7 +476,7 @@ const WatchEnhanced = () => {
                 {/* 评论区 */}
                 <Fade in timeout={1000}>
                   <Box>
-                    <CommentSection videoId={videoId} />
+                    <CommentSectionEnhanced videoId={videoId} />
                   </Box>
                 </Fade>
               </Box>
